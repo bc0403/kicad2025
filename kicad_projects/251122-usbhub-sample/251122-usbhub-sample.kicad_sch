@@ -1,0 +1,202 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "e8f94ea7-8ad5-45f9-b30e-d4bfd0a68d5f")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 97.79 63.5)
+		(size 41.91 26.67)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "246ae1c6-760a-48c8-8151-8041c7bcaa7e")
+		(property "Sheetname" "usb_hub_controller"
+			(at 97.79 62.7884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "usb_hub_controller.kicad_sch"
+			(at 97.79 90.7546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "USB_UP_N" bidirectional
+			(at 97.79 72.39 180)
+			(uuid "cba79f22-49ad-415f-b392-148809d64ccc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "USB_UP_P" bidirectional
+			(at 97.79 69.85 180)
+			(uuid "78ae077f-ccee-4874-8d43-1bd163dc9075")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "251122-usbhub-sample"
+				(path "/e8f94ea7-8ad5-45f9-b30e-d4bfd0a68d5f"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 97.79 100.33)
+		(size 41.91 27.94)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "38daee2a-f4d4-49c3-bf3c-06ee0d172b58")
+		(property "Sheetname" "usb_power_switch"
+			(at 97.79 99.6184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "usb_power_switch.kicad_sch"
+			(at 97.79 128.8546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251122-usbhub-sample"
+				(path "/e8f94ea7-8ad5-45f9-b30e-d4bfd0a68d5f"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 97.79 26.67)
+		(size 41.91 26.67)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "3a976c5c-3782-40f0-81ae-878865590f67")
+		(property "Sheetname" "config_and_debug"
+			(at 97.79 25.9584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "config_and_debug.kicad_sch"
+			(at 97.79 53.9246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251122-usbhub-sample"
+				(path "/e8f94ea7-8ad5-45f9-b30e-d4bfd0a68d5f"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 97.79 138.43)
+		(size 41.91 26.67)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "5ff60ccf-61e0-48c9-85ba-5a17f342a16b")
+		(property "Sheetname" "LDO_regulator"
+			(at 97.79 137.7184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "LDO_regulator.kicad_sch"
+			(at 97.79 165.6846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251122-usbhub-sample"
+				(path "/e8f94ea7-8ad5-45f9-b30e-d4bfd0a68d5f"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

@@ -1,0 +1,231 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "d7c2e0b7-0e8d-4885-8a6a-a84ef6c260f8")
+	(paper "A4")
+	(title_block
+		(title "SAW Reader 433M")
+		(date "2025-11-23")
+		(rev "v1.0")
+		(company "Zhejiang University")
+		(comment 4 "hjin")
+	)
+	(lib_symbols)
+	(sheet
+		(at 101.6 156.21)
+		(size 49.53 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "65b36d5f-b882-497a-a3be-dd25a63c25ae")
+		(property "Sheetname" "revision_history"
+			(at 101.6 155.4984 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "revision_history.kicad_sch"
+			(at 101.6 182.1946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251123-SAW-reader-433"
+				(path "/d7c2e0b7-0e8d-4885-8a6a-a84ef6c260f8"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 101.6 31.75)
+		(size 48.26 22.86)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bdd2d736-a714-4d7d-88f0-1e5d57b80b9b")
+		(property "Sheetname" "MCU"
+			(at 101.6 31.0384 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "MCU.kicad_sch"
+			(at 101.6 55.1946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251123-SAW-reader-433"
+				(path "/d7c2e0b7-0e8d-4885-8a6a-a84ef6c260f8"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 101.6 63.5)
+		(size 48.26 22.86)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bf544b29-c2c7-499a-9715-94af71860ad4")
+		(property "Sheetname" "RF"
+			(at 101.6 62.7884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "RF.kicad_sch"
+			(at 101.6 86.9446 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251123-SAW-reader-433"
+				(path "/d7c2e0b7-0e8d-4885-8a6a-a84ef6c260f8"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 101.6 125.73)
+		(size 49.53 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "d664065c-01c3-4552-a5fe-c41dac84b0da")
+		(property "Sheetname" "power"
+			(at 101.6 125.0184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 101.6 147.9046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251123-SAW-reader-433"
+				(path "/d7c2e0b7-0e8d-4885-8a6a-a84ef6c260f8"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 101.6 93.98)
+		(size 48.26 24.13)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "ff9b84a9-ab60-4dd2-a7cc-c7b2cd02495b")
+		(property "Sheetname" "interface"
+			(at 101.6 93.2684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "interface.kicad_sch"
+			(at 101.6 118.6946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "251123-SAW-reader-433"
+				(path "/d7c2e0b7-0e8d-4885-8a6a-a84ef6c260f8"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

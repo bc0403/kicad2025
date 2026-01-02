@@ -250,7 +250,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "EC2025.kicad_pro",
+    "filename": "251123-SAW-reader-433.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -278,11 +278,7 @@
       "version": 4
     },
     "net_colors": null,
-    "netclass_assignments": {
-      "Net-(D1-A)": [
-        "Vo"
-      ]
-    },
+    "netclass_assignments": null,
     "netclass_patterns": []
   },
   "pcbnew": {
@@ -414,8 +410,28 @@
   },
   "sheets": [
     [
-      "f0ac0256-8702-49f2-9324-1047f420ecb9",
+      "d7c2e0b7-0e8d-4885-8a6a-a84ef6c260f8",
       "Root"
+    ],
+    [
+      "65b36d5f-b882-497a-a3be-dd25a63c25ae",
+      "revision_history"
+    ],
+    [
+      "bdd2d736-a714-4d7d-88f0-1e5d57b80b9b",
+      "MCU"
+    ],
+    [
+      "bf544b29-c2c7-499a-9715-94af71860ad4",
+      "RF"
+    ],
+    [
+      "ff9b84a9-ab60-4dd2-a7cc-c7b2cd02495b",
+      "interface"
+    ],
+    [
+      "d664065c-01c3-4552-a5fe-c41dac84b0da",
+      "power"
     ]
   ],
   "text_variables": {}

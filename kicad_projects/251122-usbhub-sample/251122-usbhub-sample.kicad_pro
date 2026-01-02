@@ -250,7 +250,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "EC2025.kicad_pro",
+    "filename": "251122-usbhub-sample.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -278,11 +278,7 @@
       "version": 4
     },
     "net_colors": null,
-    "netclass_assignments": {
-      "Net-(D1-A)": [
-        "Vo"
-      ]
-    },
+    "netclass_assignments": null,
     "netclass_patterns": []
   },
   "pcbnew": {
@@ -414,8 +410,24 @@
   },
   "sheets": [
     [
-      "f0ac0256-8702-49f2-9324-1047f420ecb9",
+      "e8f94ea7-8ad5-45f9-b30e-d4bfd0a68d5f",
       "Root"
+    ],
+    [
+      "246ae1c6-760a-48c8-8151-8041c7bcaa7e",
+      "usb_hub_controller"
+    ],
+    [
+      "3a976c5c-3782-40f0-81ae-878865590f67",
+      "config_and_debug"
+    ],
+    [
+      "38daee2a-f4d4-49c3-bf3c-06ee0d172b58",
+      "usb_power_switch"
+    ],
+    [
+      "5ff60ccf-61e0-48c9-85ba-5a17f342a16b",
+      "LDO_regulator"
     ]
   ],
   "text_variables": {}
