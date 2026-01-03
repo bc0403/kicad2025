@@ -965,6 +965,227 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "FBMJ2125HM330-T:FBMJ2125HM330-T"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "FB"
+				(at -7.6244 5.0815 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "FBMJ2125HM330-T"
+				(at -7.63 -7.6266 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "FBMJ2125HM330-T:BEADC2012X105N"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MF" "Taiyo Yuden"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Description_1" "33 Ohms @ 100 MHz 1 Power Line Ferrite Bead 0805 (2012 Metric) 4A 8mOhm"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Package" "2012 Taiyo Yuden"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Price" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "SnapEDA_Link" "https://www.snapeda.com/parts/FBMJ2125HM330-T/Taiyo+Yuden/view-part/?ref=snap"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "MP" "FBMJ2125HM330-T"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Availability" "In Stock"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Check_prices" "https://www.snapeda.com/parts/FBMJ2125HM330-T/Taiyo+Yuden/view-part/?ref=eda"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(symbol "FBMJ2125HM330-T_0_0"
+				(polyline
+					(pts
+						(xy -3.81 -1.27) (xy -1.27 -3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 -3.81) (xy 3.81 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 3.81) (xy -3.81 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 1.27) (xy 1.27 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -7.62 0 0)
+					(length 5.08)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 0 180)
+					(length 5.08)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "LM1117MPX-3.3:LM1117MPX-3.3"
 			(pin_names
 				(offset 1.016)
@@ -3859,6 +4080,17 @@
 		)
 		(uuid "307d4cd2-374a-4d16-8f95-ee3a29a1ca62")
 	)
+	(text "330 ohm for 3.3 V;\n470 ohm for 5 V;"
+		(exclude_from_sim no)
+		(at 207.518 141.224 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "34ecad00-6996-412d-bfb4-b4924799cb3a")
+	)
 	(text "Battery JST connector"
 		(exclude_from_sim no)
 		(at 32.004 155.956 0)
@@ -3914,6 +4146,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "09a752c3-c3c7-4712-ad86-570707c7bdb7")
+	)
+	(junction
+		(at 196.85 64.77)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3072d6d5-3cc0-4be9-96b4-693161ec214b")
 	)
 	(junction
 		(at 110.49 64.77)
@@ -4139,6 +4377,16 @@
 	)
 	(wire
 		(pts
+			(xy 196.85 59.69) (xy 196.85 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14673639-3587-4d5d-a65b-e6fb6f19256e")
+	)
+	(wire
+		(pts
 			(xy 50.8 121.92) (xy 39.37 121.92)
 		)
 		(stroke
@@ -4276,6 +4524,16 @@
 			(type default)
 		)
 		(uuid "3acd211f-ba2e-4afb-ac34-7b30ac1063aa")
+	)
+	(wire
+		(pts
+			(xy 121.92 90.17) (xy 121.92 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3f0bdd71-64e9-4943-9191-449cd0de42d7")
 	)
 	(wire
 		(pts
@@ -4619,6 +4877,16 @@
 	)
 	(wire
 		(pts
+			(xy 251.46 39.37) (xy 254 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8d7f2b51-1863-4ddf-90d3-3685e2e27cb9")
+	)
+	(wire
+		(pts
 			(xy 93.98 59.69) (xy 93.98 64.77)
 		)
 		(stroke
@@ -4716,16 +4984,6 @@
 			(type default)
 		)
 		(uuid "a809fda4-eabe-446b-8d8f-8f116e67a94e")
-	)
-	(wire
-		(pts
-			(xy 251.46 39.37) (xy 259.08 39.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a85c8b35-a6b5-41b5-9c37-1d0f0cf7a792")
 	)
 	(wire
 		(pts
@@ -4829,6 +5087,16 @@
 	)
 	(wire
 		(pts
+			(xy 109.22 93.98) (xy 109.22 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8ff0c30-fb5a-4ae4-b5f7-b9b364c3cee5")
+	)
+	(wire
+		(pts
 			(xy 193.04 96.52) (xy 193.04 113.03)
 		)
 		(stroke
@@ -4856,6 +5124,16 @@
 			(type default)
 		)
 		(uuid "cf150baa-c776-4023-b3da-f927fe05b4f3")
+	)
+	(wire
+		(pts
+			(xy 269.24 39.37) (xy 273.05 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1f1a12c-2204-4f2f-95b7-5318a8e75de9")
 	)
 	(wire
 		(pts
@@ -5087,6 +5365,16 @@
 		)
 		(uuid "ff77964f-e1ba-4a24-8fb9-b2655d851f30")
 	)
+	(wire
+		(pts
+			(xy 210.82 59.69) (xy 196.85 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ffc3454d-10a4-4307-9cd9-7857e96c6ddc")
+	)
 	(label "USB_DP"
 		(at 91.44 44.45 0)
 		(effects
@@ -5156,6 +5444,16 @@
 			(justify right bottom)
 		)
 		(uuid "5a5325a5-71b1-4e1d-acc9-ebb5cf34a566")
+	)
+	(label "VBUS"
+		(at 121.92 93.98 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "60776bf4-283c-4fed-b4dc-b5908a013114")
 	)
 	(label "PWR_LED"
 		(at 204.47 146.05 90)
@@ -5334,7 +5632,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "LEDC2012X120N"
+		(property "Footprint" "esp32_demo_footprints:LEDC2012X120N"
 			(at 76.53 93.98 0)
 			(effects
 				(font
@@ -5475,7 +5773,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "LEDC2012X120N"
+		(property "Footprint" "esp32_demo_footprints:LEDC2012X120N"
 			(at 99.39 93.98 0)
 			(effects
 				(font
@@ -5749,7 +6047,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 206.7052 35.56 0)
 			(effects
 				(font
@@ -5817,7 +6115,7 @@
 				)
 			)
 		)
-		(property "Footprint" "MCP73871-2CAI_ML:QFN50P400X400X100-21N"
+		(property "Footprint" "esp32_demo_footprints:QFN50P400X400X100-21N"
 			(at 231.14 54.61 0)
 			(effects
 				(font
@@ -6129,7 +6427,7 @@
 				)
 			)
 		)
-		(property "Footprint" "SS-52400-002:BELFUSE_SS-52400-002"
+		(property "Footprint" "esp32_demo_footprints:BELFUSE_SS-52400-002"
 			(at 71.12 46.99 0)
 			(effects
 				(font
@@ -6410,7 +6708,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 40.3352 133.35 0)
 			(effects
 				(font
@@ -6453,6 +6751,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 121.92 90.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "26006601-eabc-468f-8fb7-312f72e19aae")
+		(property "Reference" "#FLG03"
+			(at 121.92 88.265 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 121.92 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 121.92 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 121.92 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 121.92 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "874ba3ce-b6c2-40e2-9cfd-21ff246f556c")
+		)
+		(instances
+			(project "260103-esp32_demo-techExp"
+				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0"
+					(reference "#FLG03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "B2B-PH-SM4-TB:B2B-PH-SM4-TB")
 		(at 35.56 168.91 180)
 		(unit 1)
@@ -6478,7 +6842,7 @@
 				)
 			)
 		)
-		(property "Footprint" "B2B-PH-SM4-TB:JST_B2B-PH-SM4-TB"
+		(property "Footprint" "esp32_demo_footprints:JST_B2B-PH-SM4-TB"
 			(at 35.56 168.91 0)
 			(effects
 				(font
@@ -6923,7 +7287,7 @@
 				)
 			)
 		)
-		(property "Value" "470"
+		(property "Value" "330"
 			(at 211.328 146.05 90)
 			(effects
 				(font
@@ -6931,7 +7295,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 210.82 147.828 90)
 			(effects
 				(font
@@ -6998,7 +7362,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 201.93 57.658 90)
 			(effects
 				(font
@@ -7066,7 +7430,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LM1117MPX-3.3:VREG_LM1117MPX-3.3"
+		(property "Footprint" "esp32_demo_footprints:VREG_LM1117MPX-3.3"
 			(at 68.58 124.46 0)
 			(effects
 				(font
@@ -7402,7 +7766,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 201.93 50.038 90)
 			(effects
 				(font
@@ -7472,7 +7836,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 110.1852 132.08 0)
 			(effects
 				(font
@@ -7542,7 +7906,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "esp32_demo_footprints:T491A"
 			(at 98.7552 132.08 0)
 			(effects
 				(font
@@ -7609,7 +7973,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 30.988 58.42 90)
 			(effects
 				(font
@@ -7743,7 +8107,7 @@
 				)
 			)
 		)
-		(property "Footprint" "FUSC3226X100N"
+		(property "Footprint" "esp32_demo_footprints:FUSC3226X100N"
 			(at 134.62 135.56 0)
 			(effects
 				(font
@@ -7858,6 +8222,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 109.22 93.98 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9b850c1b-62d6-416a-8157-9010248ead9a")
+		(property "Reference" "#FLG04"
+			(at 109.22 95.885 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 109.22 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 109.22 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 109.22 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 109.22 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "242c4de5-c7d0-489a-9e68-f29bb8ef31be")
+		)
+		(instances
+			(project "260103-esp32_demo-techExp"
+				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0"
+					(reference "#FLG04")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 144.78 93.98 0)
 		(unit 1)
@@ -7948,7 +8378,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 265.938 74.93 90)
 			(effects
 				(font
@@ -8150,7 +8580,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 119.0752 50.8 0)
 			(effects
 				(font
@@ -8219,7 +8649,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "LEDC2012X120N"
+		(property "Footprint" "esp32_demo_footprints:LEDC2012X120N"
 			(at 189.23 52.4 0)
 			(effects
 				(font
@@ -8490,7 +8920,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 272.288 74.93 90)
 			(effects
 				(font
@@ -8667,7 +9097,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 259.08 39.37 0)
+		(at 273.05 39.37 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8676,7 +9106,7 @@
 		(fields_autoplaced yes)
 		(uuid "d085d427-2fe3-4333-8e4d-d428e8d71603")
 		(property "Reference" "#PWR023"
-			(at 259.08 43.18 0)
+			(at 273.05 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8685,7 +9115,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 259.08 34.29 0)
+			(at 273.05 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8693,7 +9123,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 259.08 39.37 0)
+			(at 273.05 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8702,7 +9132,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 259.08 39.37 0)
+			(at 273.05 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8711,7 +9141,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 259.08 39.37 0)
+			(at 273.05 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8756,7 +9186,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 112.268 58.42 90)
 			(effects
 				(font
@@ -8859,6 +9289,155 @@
 			(project "260103-esp32_demo-techExp"
 				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0"
 					(reference "#PWR017")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "FBMJ2125HM330-T:FBMJ2125HM330-T")
+		(at 261.62 39.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "dcf5d3f3-1083-4bb7-8509-e5c4bdd086f0")
+		(property "Reference" "FB1"
+			(at 261.62 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "FBMJ2125HM330-T"
+			(at 261.62 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "esp32_demo_footprints:BEADC2012X105N"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Taiyo Yuden"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "33 Ohms @ 100 MHz 1 Power Line Ferrite Bead 0805 (2012 Metric) 4A 8mOhm"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "2012 Taiyo Yuden"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/FBMJ2125HM330-T/Taiyo+Yuden/view-part/?ref=snap"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "FBMJ2125HM330-T"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/FBMJ2125HM330-T/Taiyo+Yuden/view-part/?ref=eda"
+			(at 261.62 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "d15e6c60-e001-4420-bd28-ffa23a2504dd")
+		)
+		(pin "1"
+			(uuid "0008e5de-7334-4b0a-a527-edd308938e0e")
+		)
+		(instances
+			(project ""
+				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0"
+					(reference "FB1")
 					(unit 1)
 				)
 			)
@@ -9021,7 +9600,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 259.08 58.928 90)
 			(effects
 				(font
@@ -9091,7 +9670,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "esp32_demo_footprints:T491A"
 			(at 28.9052 133.35 0)
 			(effects
 				(font
@@ -9158,7 +9737,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 201.93 66.548 90)
 			(effects
 				(font
@@ -9227,7 +9806,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "LEDC2012X120N"
+		(property "Footprint" "esp32_demo_footprints:LEDC2012X120N"
 			(at 87.96 93.98 0)
 			(effects
 				(font
@@ -9474,6 +10053,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+5V")
+		(at 109.22 90.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f986d5f7-50e1-42a0-98fa-6ea85c3b9216")
+		(property "Reference" "#PWR063"
+			(at 109.22 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 109.22 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 109.22 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 109.22 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 109.22 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4d61ede0-dfef-49d1-9fba-8de65a1f923f")
+		)
+		(instances
+			(project "260103-esp32_demo-techExp"
+				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0"
+					(reference "#PWR063")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 110.49 66.04 0)
 		(unit 1)
@@ -9564,7 +10209,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
 			(at 201.93 53.848 90)
 			(effects
 				(font

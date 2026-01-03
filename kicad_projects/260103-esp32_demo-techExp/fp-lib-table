@@ -1,4 +1,4 @@
 (fp_lib_table
   (version 7)
-  (lib (name "esp32_demo_footprints")(type "KiCad")(uri "${KIPRJMOD}/libs/footprints")(options "")(descr "")(disabled))
+  (lib (name "esp32_demo_footprints")(type "KiCad")(uri "${KIPRJMOD}/libs/footprints")(options "")(descr ""))
 )
