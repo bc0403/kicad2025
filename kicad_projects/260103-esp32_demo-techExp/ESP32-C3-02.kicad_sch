@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "d8c472b8-68ac-4321-b714-e29bcf3cde61")
+	(uuid "2d505fb0-8ff0-4b46-a8a2-8a2b0e1ea848")
 	(paper "A4")
 	(title_block
 		(title "ESP32 C3, USB bridge, SD, and flash memory")
@@ -8297,7 +8297,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:SiliconLabs_QFN-20-1EP_3x3mm_P0.5mm"
+		(property "Footprint" "Package_DFN_QFN:SiliconLabs_QFN-20-1EP_3x3mm_P0.5mm_EP1.8x1.8mm"
 			(at 116.84 110.49 0)
 			(effects
 				(font
