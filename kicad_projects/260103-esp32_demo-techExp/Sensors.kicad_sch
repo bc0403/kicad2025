@@ -49,16 +49,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "MF" "Bosch"
+			(property "Description" "Integrated pressure, humidity and temperature sensor; 8-pin 2.5x2.5x0.93mm LGA"
 				(at 0 0 0)
 				(effects
 					(font
@@ -68,7 +59,7 @@
 					(hide yes)
 				)
 			)
-			(property "DESCRIPTION" "Integrated pressure, humidity and temperature sensor; 8-pin 2.5x2.5x0.93mm LGA"
+			(property "MF" "Bosch"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1888,6 +1879,12 @@
 		(uuid "1ecfb4dc-8b00-4191-a23e-1527175b9e14")
 	)
 	(junction
+		(at 176.53 127)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "21d6c32f-6e74-4964-8b23-c96908880651")
+	)
+	(junction
 		(at 97.79 72.39)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1918,12 +1915,6 @@
 		(uuid "6ae97e98-e85e-4150-88ad-2b4e47b49dfb")
 	)
 	(junction
-		(at 165.1 127)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7d329bd1-c860-4759-864b-a693918237f9")
-	)
-	(junction
 		(at 250.19 119.38)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1936,10 +1927,10 @@
 		(uuid "8043c277-16b4-4f1b-91d3-cb56fe606e3b")
 	)
 	(junction
-		(at 176.53 127)
+		(at 165.1 127)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "8b9eda3e-2f5a-444e-9dbb-a03154c66c4b")
+		(uuid "ae89adf2-8654-4f7a-ac67-fe4075684674")
 	)
 	(junction
 		(at 250.19 134.62)
@@ -2092,6 +2083,16 @@
 			(type default)
 		)
 		(uuid "45f6512d-8f58-4ce2-9f7e-a125f8094e52")
+	)
+	(wire
+		(pts
+			(xy 176.53 127) (xy 176.53 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4606b70a-65ce-42b8-abc3-0ca6921f9b87")
 	)
 	(wire
 		(pts
@@ -2285,16 +2286,6 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 127) (xy 176.53 127)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7e54bebd-bd20-4dc4-a53a-ab76ed5dca18")
-	)
-	(wire
-		(pts
 			(xy 97.79 54.61) (xy 97.79 52.07)
 		)
 		(stroke
@@ -2355,7 +2346,7 @@
 	)
 	(wire
 		(pts
-			(xy 189.23 135.89) (xy 189.23 127)
+			(xy 189.23 128.27) (xy 189.23 127)
 		)
 		(stroke
 			(width 0)
@@ -2435,6 +2426,16 @@
 	)
 	(wire
 		(pts
+			(xy 165.1 127) (xy 167.64 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7822344-dea8-49d2-bb68-20e85062d13b")
+	)
+	(wire
+		(pts
 			(xy 97.79 72.39) (xy 97.79 74.93)
 		)
 		(stroke
@@ -2475,16 +2476,6 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 127) (xy 176.53 135.89)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b222d34d-2ed2-46f1-909c-5fd6defdff17")
-	)
-	(wire
-		(pts
 			(xy 154.94 127) (xy 165.1 127)
 		)
 		(stroke
@@ -2495,7 +2486,7 @@
 	)
 	(wire
 		(pts
-			(xy 189.23 143.51) (xy 189.23 146.05)
+			(xy 189.23 135.89) (xy 189.23 138.43)
 		)
 		(stroke
 			(width 0)
@@ -2625,6 +2616,16 @@
 	)
 	(wire
 		(pts
+			(xy 189.23 151.13) (xy 189.23 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e3870dc0-1d11-45c3-9280-50eda0121277")
+	)
+	(wire
+		(pts
 			(xy 176.53 143.51) (xy 176.53 146.05)
 		)
 		(stroke
@@ -2682,6 +2683,16 @@
 			(type default)
 		)
 		(uuid "f7e77c09-1342-46a2-8a96-3bc9c055aa82")
+	)
+	(wire
+		(pts
+			(xy 175.26 127) (xy 176.53 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fb70df49-a0d9-4e8d-afa8-a57f0ec90278")
 	)
 	(wire
 		(pts
@@ -3881,7 +3892,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 189.23 146.05 0)
+		(at 189.23 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3890,7 +3901,7 @@
 		(fields_autoplaced yes)
 		(uuid "8501e1b8-7781-4536-9c4b-b5b7e0304847")
 		(property "Reference" "#PWR049"
-			(at 189.23 152.4 0)
+			(at 189.23 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3899,7 +3910,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 189.23 151.13 0)
+			(at 189.23 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3907,7 +3918,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 189.23 146.05 0)
+			(at 189.23 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3916,7 +3927,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 189.23 146.05 0)
+			(at 189.23 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3925,7 +3936,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 189.23 146.05 0)
+			(at 189.23 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4216,6 +4227,140 @@
 			(project "260103-esp32_demo-techExp"
 				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0/c970ae5e-5c0d-4bfd-b9e3-3da90c7c28e6/aa4b4bc5-e6e9-40a7-8829-625116ed9b5f"
 					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 171.45 127 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b8b443bf-9067-4235-bc23-a05bf2a3a189")
+		(property "Reference" "C17"
+			(at 170.942 133.604 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10n"
+			(at 171.196 131.064 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 175.26 126.0348 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 171.45 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 171.45 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3c2e9c18-f04f-409f-82ad-0173596dcd80")
+		)
+		(pin "2"
+			(uuid "94946717-856f-4a0f-a314-5013bb6d270d")
+		)
+		(instances
+			(project "260103-esp32_demo-techExp"
+				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0/c970ae5e-5c0d-4bfd-b9e3-3da90c7c28e6/aa4b4bc5-e6e9-40a7-8829-625116ed9b5f"
+					(reference "C17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 189.23 142.24 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bfa5a16e-eb96-4f24-bf02-626a5fb5e307")
+		(property "Reference" "C19"
+			(at 195.834 142.748 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1u"
+			(at 193.294 142.494 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 188.2648 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 189.23 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 189.23 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9ea98ad3-1451-4563-ab32-2f71b78a319e")
+		)
+		(pin "2"
+			(uuid "5e6d736c-3b52-49cb-93ad-87b76135652c")
+		)
+		(instances
+			(project "260103-esp32_demo-techExp"
+				(path "/2d426d0b-8cb5-4c97-a124-03a3dc3f5ac0/c970ae5e-5c0d-4bfd-b9e3-3da90c7c28e6/aa4b4bc5-e6e9-40a7-8829-625116ed9b5f"
+					(reference "C19")
 					(unit 1)
 				)
 			)
@@ -4851,7 +4996,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 189.23 139.7 180)
+		(at 189.23 132.08 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4860,7 +5005,7 @@
 		(fields_autoplaced yes)
 		(uuid "ee4b9f0a-d846-4691-b449-cc04979f0ff8")
 		(property "Reference" "R30"
-			(at 191.77 138.4299 0)
+			(at 191.77 130.8099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4869,7 +5014,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 191.77 140.9699 0)
+			(at 191.77 133.3499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4878,7 +5023,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 191.008 139.7 90)
+			(at 191.008 132.08 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4887,7 +5032,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 189.23 139.7 0)
+			(at 189.23 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4896,7 +5041,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 189.23 139.7 0)
+			(at 189.23 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)

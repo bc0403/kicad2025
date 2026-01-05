@@ -7262,7 +7262,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "b765cc42-727e-41bc-ad01-83578232e606")
+			(uuid "b765cc42-727e-41bc-ad01-83578232e607")
 		)
 		(instances
 			(project ""
@@ -7665,7 +7665,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "b765cc42-727e-41bc-ad01-83578232e606")
+			(uuid "b765cc42-727e-41bc-ad01-83578232e608")
 		)
 		(instances
 			(project ""
@@ -8190,7 +8190,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "b765cc42-727e-41bc-ad01-83578232e606")
+			(uuid "b765cc42-727e-41bc-ad01-83578232e609")
 		)
 		(instances
 			(project ""
@@ -8516,7 +8516,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "b765cc42-727e-41bc-ad01-83578232e606")
+			(uuid "b765cc42-727e-41bc-ad01-83578232e60a")
 		)
 		(instances
 			(project ""
