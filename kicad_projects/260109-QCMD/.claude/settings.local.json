@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(where:*)",
+      "Bash(py -3.8 -c:*)",
+      "Bash(timeout:*)",
+      "Bash(py -3.8 -m py_compile:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(py:*)",
+      "Bash(dir:*)"
+    ]
+  }
+}
