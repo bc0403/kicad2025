@@ -15,9 +15,9 @@
 
 // Variable Declaration
 // DDS Synthesizer AD9851 pin function
-int WCLK = A7;
-int DATA = A8;
-int FQ_UD = A6;
+int WCLK = A7;  // write the freq and control words to 40 bits internal register, at rising edge 
+int DATA = A8;  // connect to D7 of AD9851, using series mode, the D0, D1, and D2 should set to 1, 1, and 0, respectively. D3~D7 can be set to zero.
+int FQ_UD = A6;  // write the data in register to DDS core, at rising edge
 
 // Frequency Tuning Word
 long FTW;
@@ -40,11 +40,11 @@ int AVERAGE_SAMPLE = 2048;
 int ADC_RESOLUTION = 12;
 
 // code variables
-long freq_start;
+long freq_start = 5000000;
 long freq_stop;
 int freq_step;
 char tempChars[64]; 
-int new_command = 0;
+int new_command = 2;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -123,7 +123,7 @@ void Set_Frequency(long frequency)
 // 8 bit DDS phase and x6 multiplier refclock
   for (int i = 0; i < 8; i++)
   {
-    if (i==0) digitalWrite(DATA, HIGH);
+    if (i==0) digitalWrite(DATA, HIGH);  // enable 6x reference clk
     else digitalWrite(DATA, LOW);
     digitalWrite(WCLK, HIGH);
     digitalWrite(WCLK, LOW);
@@ -144,7 +144,7 @@ void loop()
     String message_str = Serial.readStringUntil('\n');
     // buffer array for storing the message in char form temporarily
     char buffer_array[64];
-    //Serial.println(message_str); // debugging line
+    Serial.println(message_str); // debugging line
     // the String format is converted to C-string and stored in the buffer array
     message_str.toCharArray(buffer_array, sizeof(buffer_array));
 
@@ -161,7 +161,7 @@ void loop()
     // ditto ^
     strtokIndx = strtok(NULL,";");
     freq_step = atoi(strtokIndx);
-    new_command = 1; // Setting to 2 goes into a simple debug mode
+    // new_command = 2; // Setting to 2 goes into a simple debug mode
   }
 
   if (new_command == 1) // Start of frequency sweep loop
@@ -204,8 +204,8 @@ void loop()
   // Debug part for setting individual frequencies
   if (new_command == 2)
   { 
-    Set_Frequency(5000000);
+    Set_Frequency(freq_start);
     digitalWrite(13,HIGH);
-    new_command = 3;
+    // new_command = 3;
   }
 }
