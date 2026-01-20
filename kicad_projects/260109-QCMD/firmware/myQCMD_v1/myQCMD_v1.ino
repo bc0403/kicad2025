@@ -72,13 +72,13 @@
 // #define ADDRESS 0x2C
 // // potentiometer AD5252 default value for compatibility with openQCM Q-1 shield @5VDC 
 // #define POT_VALUE 240 //254
-// reference clock
+// reference clock for AD9851
 #define REFCLK 180000000
 // safe default frequency for dummy mode (1 MHz)
 #define SAFE_FREQ 1000000
 
 // V2.1_T40 ADC averaging and resolution define 
-#define AVERAGING   1
+#define AVERAGING   1  // hardware average#
 #define RESOLUTION 12
 
 /*************************** VARIABLE DECLARATION ***************************/
@@ -109,8 +109,9 @@ const int readPin = A0;  //A9;
 const int readPin2 = A1;  //A3;
 // init  adc object
 ADC *adc = new ADC();
-// number of sample fro averaging
-int AVERAGE_SAMPLE = 4096;
+// number of sample for averaging, software average
+// 1/600MHz = 1.67 ns; 1.67*2048 = 3.4 us per point;
+int AVERAGE_SAMPLE = 2048;
 // ADC init variabl
 boolean WAIT = true;
 // ADC waiting delay microseconds
@@ -139,9 +140,9 @@ int ADC_RESOLUTION = 13;
 */
 
 // init sweep param
-long freq_start = 5000000;
-long freq_stop = 5500000;
-long freq_step = 10000;
+long freq_start = 40680000;
+long freq_stop = 40690000;
+long freq_step = 1000;
 
 // // init output ad8302 measurement (cast to double)
 // double measure_phase = 0;
@@ -188,8 +189,8 @@ void SetFreq(long frequency)
 /*************************** SETUP ***************************/
 void setup()
 {
-  // Initialise I2C communication as Master
-  Wire.begin();
+  // // Initialise I2C communication as Master
+  // Wire.begin();
   // Initialise serial communication, set baud rate = 9600
   Serial.begin(115200);
 
@@ -283,7 +284,7 @@ ADC::Sync_result result;
 bool performSweep(bool checkForCommand) {
   // Safety check: ensure valid frequency step
   if (freq_step <= 0) {
-    digitalWrite(13, HIGH); // LED off
+    digitalWrite(13, HIGH); // LED on
     return true; // Treat as completed
   }
 
@@ -314,7 +315,7 @@ bool performSweep(bool checkForCommand) {
     }
 
     SetFreq(count);
-    if (WAIT) delayMicroseconds(WAIT_DELAY_US);
+    if (WAIT) delayMicroseconds(WAIT_DELAY_US);  // 100us*20001 = 2s per sweep
 
     // ADC measure and averaging
     if (AVERAGING == true) {
@@ -329,13 +330,13 @@ bool performSweep(bool checkForCommand) {
       value = 1.0 * value / AVERAGE_SAMPLE;
 
       // serial print data bit-amplitude and bit-phase values
-      Serial.print(value*3300/((1<<RESOLUTION)-1));
+      Serial.print(value*3300.0/((1<<RESOLUTION)-1));
       Serial.print(",");
-      Serial.print(value2*3300/((1<<RESOLUTION)-1));
+      Serial.print(value2*3300.0/((1<<RESOLUTION)-1));
       Serial.println();
 
-      value = 0;
-      value2 = 0;
+      value = 0.0;
+      value2 = 0.0;
     }
   }
 

@@ -11,7 +11,12 @@
       "Bash(py:*)",
       "Bash(dir:*)",
       "Bash(\"C:\\\\work\\\\super_saw\\\\gui\\\\super_saw\\\\venv\\\\Scripts\\\\python\" -c:*)",
-      "Bash(\"C:\\\\work\\\\super_saw\\\\gui\\\\super_saw\\\\venv\\\\Scripts\\\\python\":*)"
+      "Bash(\"C:\\\\work\\\\super_saw\\\\gui\\\\super_saw\\\\venv\\\\Scripts\\\\python\":*)",
+      "Bash(/c/work/super_saw/gui/super_saw/venv/Scripts/python.exe:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)"
     ]
   }
 }

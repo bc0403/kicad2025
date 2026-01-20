@@ -60,9 +60,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setMinimumSize(1024, 768)
 
         # Set default frequency values (match firmware defaults)
-        self.lineEdit.setText("5000000")   # 5 MHz
-        self.lineEdit_2.setText("5500000") # 5.5 MHz
-        self.lineEdit_3.setText("10000")   # 10 kHz step
+        self.lineEdit.setText("40680000")   # 5 MHz
+        self.lineEdit_2.setText("40690000") # 5.5 MHz
+        self.lineEdit_3.setText("10")   # 10 kHz step
         self.lineEdit_4.setText("")
         self.lineEdit_5.setText("")  # Resonant frequency display
         self.lineEdit_6.setText("")  # Phase monitoring frequency input
@@ -89,8 +89,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.phase_at_fixed_freq_array = []  # Phase at fixed monitoring frequency
         self.phase_fixed_curve = None  # Placeholder for removed plot curve
         self.phase_fixed_plot = None   # Placeholder for removed plot
-        self.phase_y_range = None  # Store Y range for phase axis
-        self.gain_y_range = None   # Store Y range for gain axis
         self.t_start = time.time()
 
         # Sweep state variables (from DAQ.py)
@@ -143,6 +141,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.phase_curve_right = pg.PlotCurveItem(pen='m', name='Phase')
         self.phase_viewbox.addItem(self.phase_curve_right)
 
+        # Ensure auto-ranging is enabled for both axes
+        self.gain_viewbox.enableAutoRange(axis='y')
+        self.phase_viewbox.enableAutoRange(axis='y')
+
         # Update view when resized
         def update_views():
             self.phase_viewbox.setGeometry(self.raw_plot_widget.plotItem.vb.sceneBoundingRect())
@@ -165,13 +167,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.freq_curve = self.freq_plot.plot(pen='r')
 
         # Phase plot (second) - shows phase at fixed monitoring frequency
-        self.phase_plot = self.multi_plot_widget.addPlot(title='Phase', row=1, col=0)
+        self.phase_plot = self.multi_plot_widget.addPlot(title='Phase at Fixed Freq', row=1, col=0)
         self.phase_plot.setLabel('left', 'Phase', units='mV')
         self.phase_plot.showAxis('bottom', False)  # Hide x-axis for second plot
-        self.phase_curve = self.phase_plot.plot(pen='g')
+        self.phase_curve = self.phase_plot.plot(pen='y')
 
         # Q factor plot (third)
-        self.q_plot = self.multi_plot_widget.addPlot(title='Q Factor', row=2, col=0)
+        self.q_plot = self.multi_plot_widget.addPlot(title='Q Factor at Resonant Freq', row=2, col=0)
         self.q_plot.setLabel('left', 'Q')
         self.q_plot.setLabel('bottom', 'Time', units='s')
         self.q_curve = self.q_plot.plot(pen='b')
@@ -192,29 +194,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Args:
             phase_data: numpy array of phase values in mV
         """
-        if phase_data is None or len(phase_data) == 0:
-            return
-
-        # Calculate Y range with 20% padding only if not already set
-        if self.phase_y_range is None:
-            min_phase = np.nanmin(phase_data)
-            max_phase = np.nanmax(phase_data)
-            # Check for NaN values (e.g., all NaN)
-            if np.isnan(min_phase) or np.isnan(max_phase):
-                return
-            padding = (max_phase - min_phase) * 0.2
-            if padding == 0:
-                padding = 10  # Default padding if data is constant
-
-            y_min = min_phase - padding
-            y_max = max_phase + padding
-            self.phase_y_range = (y_min, y_max)
-
-        # Apply stored range to phase viewbox
-        if self.phase_viewbox and self.phase_y_range is not None:
-            self.phase_viewbox.setYRange(*self.phase_y_range)
-            # Disable auto-range to maintain fixed Y range
-            self.phase_viewbox.disableAutoRange(axis='y')
+        # Allow auto-ranging (do nothing to interfere with pyqtgraph's auto-range)
+        pass
 
     def update_gain_y_range(self, gain_data):
         """Update Y range for gain axis based on gain data.
@@ -222,29 +203,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Args:
             gain_data: numpy array of gain values in mV
         """
-        if gain_data is None or len(gain_data) == 0:
-            return
-
-        # Calculate Y range with 20% padding only if not already set
-        if self.gain_y_range is None:
-            min_gain = np.nanmin(gain_data)
-            max_gain = np.nanmax(gain_data)
-            # Check for NaN values (e.g., all NaN)
-            if np.isnan(min_gain) or np.isnan(max_gain):
-                return
-            padding = (max_gain - min_gain) * 0.2
-            if padding == 0:
-                padding = 10  # Default padding if data is constant
-
-            y_min = min_gain - padding
-            y_max = max_gain + padding
-            self.gain_y_range = (y_min, y_max)
-
-        # Apply stored range to gain viewbox
-        if self.gain_viewbox and self.gain_y_range is not None:
-            self.gain_viewbox.setYRange(*self.gain_y_range)
-            # Disable auto-range to maintain fixed Y range
-            self.gain_viewbox.disableAutoRange(axis='y')
+        # Allow auto-ranging (do nothing to interfere with pyqtgraph's auto-range)
+        pass
 
     def connect_signals(self):
         """Connect UI signals to slots."""
@@ -308,7 +268,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # Open serial port at 2M baud (as per QCMD firmware)
             self.serial_port = serial.Serial(
                 port=port_name,
-                baudrate=2000000,
+                baudrate=115200,
                 timeout=1
             )
 
@@ -446,11 +406,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                         # Clear raw plot for new sweep
                                         self.gain_curve.setData([], [])
                                         self.phase_curve_right.setData([], [])
-                                        # Restore Y ranges after clearing data
-                                        if self.phase_y_range is not None and self.phase_viewbox:
-                                            self.phase_viewbox.setYRange(*self.phase_y_range)
-                                        if self.gain_y_range is not None and self.gain_viewbox:
-                                            self.gain_viewbox.setYRange(*self.gain_y_range)
                                         self.append_output("Starting next sweep...")
                                     else:
                                         # Single sweep mode - stop receiving sweep data
@@ -513,23 +468,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # where fr is resonance frequency, d_phase is phase difference in radians,
             # and df is frequency difference between two measurement points
 
-            # Determine target frequency for phase comparison
-            if self.phase_monitoring_freq is not None:
-                target_freq = self.phase_monitoring_freq
-                freq_source = "user-set phase monitoring point"
-            else:
-                # Default: use frequency 1000 Hz above resonance
-                target_freq = fr + int(self.lineEdit_3.text())
-                freq_source = f"default offset (+{int(self.lineEdit_3.text())} Hz)"
-
-            # Find nearest frequency point in sweep data
-            target_idx = find_idx_nearest_val(freq_array, target_freq)
-            actual_target_freq = freq_array[target_idx]
-            phase_at_target = phase_array[target_idx]
-
             # Calculate frequency difference and phase difference
-            df = actual_target_freq - fr
-            d_phase_mV = phase_at_target - phase_at_resonance
+            df = freq_array[peak_idx + 1] - freq_array[peak_idx - 1]
+            d_phase_mV = phase_array[peak_idx + 1] - phase_array[peak_idx - 1]
 
             # Convert phase difference from mV to radians
             # 10 mV = 1 degree, 180 degrees = π radians
@@ -549,26 +490,42 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # Store Q factor
             self.q_array.append(q_factor)
 
+            # # Log details about Q calculation
+            # self.append_output(f"Q calculation: at {fr:.0f} Hz")
+            # self.append_output(f"  df = {df:.1f} Hz, d_phase = {d_phase_mV:.2f} mV = {d_phase_rad:.4f} rad")
+    
+
             # Store phase at fixed monitoring frequency (if phase monitoring point is set)
+            # Determine target frequency for phase comparison
+            # always calculate Q factor at series resonant frequency
+            # if self.phase_monitoring_freq is not None:
+            #     target_freq = self.phase_monitoring_freq
+            #     freq_source = "user-set phase monitoring point"
+            # else:
+            #     # Default: use frequency 1000 Hz above resonance
+            #     target_freq = fr + int(self.lineEdit_3.text())
+            #     freq_source = f"default offset (+{int(self.lineEdit_3.text())} Hz)"
+            
+            
+
             if self.phase_monitoring_freq is not None:
-                # phase_at_target is already extracted for Q calculation
+                target_idx = find_idx_nearest_val(freq_array, self.phase_monitoring_freq)
+                phase_at_target = phase_array[target_idx]
                 self.phase_at_fixed_freq_array.append(phase_at_target)
-                self.append_output(f"Phase at fixed freq {actual_target_freq:.0f} Hz: {phase_at_target:.1f} mV")
+                self.append_output(f"Phase at fixed freq {self.phase_monitoring_freq:.0f} Hz: {phase_at_target:.1f} mV")
+                # Log results with phase info
+                self.append_output(f"Resonance: {fr/1e6:.3f} MHz, Phase at {self.phase_monitoring_freq:.0f} Hz: {phase_at_target:.1f} mV, Q: {q_factor:.0f}")
             else:
                 # No fixed monitoring frequency set, store NaN as placeholder
                 self.phase_at_fixed_freq_array.append(float('nan'))
+                # Log results without phase info
+                self.append_output(f"Resonance: {fr/1e6:.3f} MHz, Q: {q_factor:.0f}")
 
-            # Log details about Q calculation
-            self.append_output(f"Q calculation: using {freq_source} at {actual_target_freq:.0f} Hz")
-            self.append_output(f"  df = {df:.1f} Hz, d_phase = {d_phase_mV:.2f} mV = {d_phase_rad:.4f} rad")
 
             # Update multi-plot
             self.freq_curve.setData(self.t_array, self.fs_array)
             self.phase_curve.setData(self.t_array, self.phase_at_fixed_freq_array)
             self.q_curve.setData(self.t_array, self.q_array)
-
-            # Log results
-            self.append_output(f"Resonance: {fr/1e6:.3f} MHz, Phase at {actual_target_freq:.0f} Hz: {phase_at_target:.1f} mV, Q: {q_factor:.1f}")
 
         # Optionally save data to CSV
         # self.save_data()
@@ -603,14 +560,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # Prepare data with four columns: time, freq, phase_at_fixed, Q
             data_to_save = np.column_stack((
                 np.round(self.t_array[:min_len], 2),
-                np.round(self.fs_array[:min_len], 2),
+                np.round(self.fs_array[:min_len], 0),
                 np.round(self.phase_at_fixed_freq_array[:min_len], 2),
-                np.round(self.q_array[:min_len], 2)
+                np.round(self.q_array[:min_len], 0)
             ))
 
             # Save to CSV with semicolon delimiter
             np.savetxt(filepath, data_to_save, delimiter=';',
-                       header='time ; freq ; phase_at_fixed ; Q')
+                       header='time ; freq ; phase_at_fixed_freq ; Q')
             self.append_output(f"Data saved to {filepath}")
 
         except Exception as e:
@@ -641,17 +598,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.q_array = []
         self.phase_at_fixed_freq_array = []
 
+        # Reset time baseline for new data
+        self.t_start = time.time()
+
         # Clear raw plot data
         self.gain_curve.setData([], [])
         self.phase_curve_right.setData([], [])
-        # Reset phase Y range
-        self.phase_y_range = None
-        if self.phase_viewbox:
-            self.phase_viewbox.enableAutoRange(axis='y')
-        # Reset gain Y range
-        self.gain_y_range = None
-        if self.gain_viewbox:
-            self.gain_viewbox.enableAutoRange(axis='y')
 
         # Clear multi-plot data
         self.freq_curve.setData([], [])
@@ -661,9 +613,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Clear resonant frequency display
         self.lineEdit_5.setText("")
 
-        # Reset sweep state
-        self.sweep_active = False
-        self.data_position = 0
+        # Reset sweep state based on current mode
+        if self.sweep_active and self.current_mode == 1:
+            # Continuous sweep mode - keep sweep active, don't reset data_position
+            # to avoid disrupting current sweep
+            pass
+        else:
+            # Single sweep mode or no active sweep - stop sweep and reset
+            self.sweep_active = False
+            self.data_position = 0
 
         # Log action
         self.append_output("All data and plots cleared")
