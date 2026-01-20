@@ -9,6 +9,7 @@ Date: 2026-01-20
 import sys
 import os
 import time
+import math
 import serial
 import serial.tools.list_ports
 import numpy as np
@@ -58,14 +59,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.resize(1024, 768)
         self.setMinimumSize(1024, 768)
 
-        # Set default frequency values
-        self.lineEdit.setText("40600000")
-        self.lineEdit_2.setText("40700000")
-        self.lineEdit_3.setText("1000")
+        # Set default frequency values (match firmware defaults)
+        self.lineEdit.setText("5000000")   # 5 MHz
+        self.lineEdit_2.setText("5500000") # 5.5 MHz
+        self.lineEdit_3.setText("10000")   # 10 kHz step
         self.lineEdit_4.setText("")
+        self.lineEdit_5.setText("")  # Resonant frequency display
+        self.lineEdit_6.setText("")  # Phase monitoring frequency input
+
+        # Current mode tracking
+        self.current_mode = 0  # Default to single sweep
+        self.phase_monitoring_freq = None  # Frequency for phase monitoring
 
         # Set window title
-        self.setWindowTitle("QCMD Control, v0.1.0-20260120")
+        self.setWindowTitle("QCMD Control, v0.2.0-20260120")
 
         # Initialize serial port
         self.serial_port = None
@@ -76,7 +83,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.data_array = None
         self.t_array = []
         self.fs_array = []
-        self.dp_array = []
+        self.dp_array = []  # Kept for compatibility
+        self.phase_at_res_array = []  # Phase at resonance frequency
+        self.q_array = []  # Q factor over time
+        self.phase_at_fixed_freq_array = []  # Phase at fixed monitoring frequency
+        self.phase_fixed_curve = None  # Placeholder for removed plot curve
+        self.phase_fixed_plot = None   # Placeholder for removed plot
+        self.phase_y_range = None  # Store Y range for phase axis
+        self.gain_y_range = None   # Store Y range for gain axis
         self.t_start = time.time()
 
         # Sweep state variables (from DAQ.py)
@@ -108,6 +122,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         """Initialize pyqtgraph plots in the UI layouts."""
         # Raw plot with dual Y axes (verticalLayout)
         self.raw_plot_widget = pg.PlotWidget()
+        self.gain_viewbox = self.raw_plot_widget.plotItem.vb
         self.raw_plot_widget.setLabel('left', 'Gain', units='mV')
         self.raw_plot_widget.setLabel('bottom', 'Frequency', units='Hz')
         self.raw_plot_widget.setTitle('Raw Spectrum: Gain (left) and Phase (right)')
@@ -149,13 +164,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.freq_plot.showAxis('bottom', False)  # Hide x-axis for top plot
         self.freq_curve = self.freq_plot.plot(pen='r')
 
-        # Phase plot (middle)
+        # Phase plot (second) - shows phase at fixed monitoring frequency
         self.phase_plot = self.multi_plot_widget.addPlot(title='Phase', row=1, col=0)
         self.phase_plot.setLabel('left', 'Phase', units='mV')
-        self.phase_plot.showAxis('bottom', False)  # Hide x-axis for middle plot
+        self.phase_plot.showAxis('bottom', False)  # Hide x-axis for second plot
         self.phase_curve = self.phase_plot.plot(pen='g')
 
-        # Q factor plot (bottom)
+        # Q factor plot (third)
         self.q_plot = self.multi_plot_widget.addPlot(title='Q Factor', row=2, col=0)
         self.q_plot.setLabel('left', 'Q')
         self.q_plot.setLabel('bottom', 'Time', units='s')
@@ -170,6 +185,66 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Add to verticalLayout_2 (groupBox_5)
         self.verticalLayout_2.addWidget(self.multi_plot_widget)
+
+    def update_phase_y_range(self, phase_data):
+        """Update Y range for phase axis based on phase data.
+
+        Args:
+            phase_data: numpy array of phase values in mV
+        """
+        if phase_data is None or len(phase_data) == 0:
+            return
+
+        # Calculate Y range with 20% padding only if not already set
+        if self.phase_y_range is None:
+            min_phase = np.nanmin(phase_data)
+            max_phase = np.nanmax(phase_data)
+            # Check for NaN values (e.g., all NaN)
+            if np.isnan(min_phase) or np.isnan(max_phase):
+                return
+            padding = (max_phase - min_phase) * 0.2
+            if padding == 0:
+                padding = 10  # Default padding if data is constant
+
+            y_min = min_phase - padding
+            y_max = max_phase + padding
+            self.phase_y_range = (y_min, y_max)
+
+        # Apply stored range to phase viewbox
+        if self.phase_viewbox and self.phase_y_range is not None:
+            self.phase_viewbox.setYRange(*self.phase_y_range)
+            # Disable auto-range to maintain fixed Y range
+            self.phase_viewbox.disableAutoRange(axis='y')
+
+    def update_gain_y_range(self, gain_data):
+        """Update Y range for gain axis based on gain data.
+
+        Args:
+            gain_data: numpy array of gain values in mV
+        """
+        if gain_data is None or len(gain_data) == 0:
+            return
+
+        # Calculate Y range with 20% padding only if not already set
+        if self.gain_y_range is None:
+            min_gain = np.nanmin(gain_data)
+            max_gain = np.nanmax(gain_data)
+            # Check for NaN values (e.g., all NaN)
+            if np.isnan(min_gain) or np.isnan(max_gain):
+                return
+            padding = (max_gain - min_gain) * 0.2
+            if padding == 0:
+                padding = 10  # Default padding if data is constant
+
+            y_min = min_gain - padding
+            y_max = max_gain + padding
+            self.gain_y_range = (y_min, y_max)
+
+        # Apply stored range to gain viewbox
+        if self.gain_viewbox and self.gain_y_range is not None:
+            self.gain_viewbox.setYRange(*self.gain_y_range)
+            # Disable auto-range to maintain fixed Y range
+            self.gain_viewbox.disableAutoRange(axis='y')
 
     def connect_signals(self):
         """Connect UI signals to slots."""
@@ -191,7 +266,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Keyboard shortcut for saving data (Ctrl+S)
         save_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+S"), self)
-        save_shortcut.activated.connect(self.save_data)
+        save_shortcut.activated.connect(lambda: self.save_data())
+
+        # Additional buttons (clear, set phase point, save)
+        self.pushButton_5.clicked.connect(lambda: self.clear_data())  # Clear button (use lambda to avoid boolean parameter)
+        self.pushButton_6.clicked.connect(lambda: self.set_phase_monitoring_point())  # Set phase monitoring point (use lambda)
+        self.pushButton_7.clicked.connect(lambda: self.save_data())  # Save button (use lambda to avoid boolean parameter)
 
     def update_serial_list(self):
         """Update list of available serial ports."""
@@ -268,8 +348,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.append_output("Invalid frequency values")
             return
 
-        # Format command as per firmware: "freq_start;freq_stop;freq_step"
-        command = f"{freq_start};{freq_stop};{freq_step};\n"
+        # Determine mode from checkbox: 0=single sweep, 1=continuous sweep
+        mode = 0 if self.checkBox.isChecked() else 1
+        self.current_mode = mode  # Store current mode for processing
+
+        # Format command as per firmware: "freq_start;freq_stop;freq_step;mode"
+        command = f"{freq_start};{freq_stop};{freq_step};{mode};\n"
 
         try:
             # Flush serial input buffer
@@ -310,124 +394,225 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.append_output(f"Send failed: {str(e)}")
 
     def read_serial_data(self):
-        """Read data from serial port and process binary sweep data."""
+        """Read data from serial port and process ASCII sweep data."""
         if not self.serial_port or not self.serial_port.is_open:
             return
 
-        if not self.sweep_active:
-            # If not in sweep mode, just read any text lines
-            try:
-                if self.serial_port.in_waiting:
-                    raw_data = self.serial_port.readline().decode().strip()
-                    if raw_data:
-                        self.append_output(f"Received: {raw_data}")
-            except Exception as e:
-                self.append_output(f"Read error: {str(e)}")
-            return
-
-        # Sweep active: process binary data
         try:
-            bytes_available = self.serial_port.in_waiting
-            if bytes_available > 0:
-                a_array = self.serial_port.read(bytes_available)
+            while self.serial_port.in_waiting:
+                # Read a line from serial port
+                raw_line = self.serial_port.readline().decode().strip()
+                if not raw_line:
+                    continue
 
-                # Decode start sequence for first packet
-                if self.counter == 0:
-                    # Check for start sequence 'b,'
-                    if a_array[:2] == self.start_sequence:
-                        a_array = a_array[2:]
-                    array_pairs = zip(a_array[::2], a_array[1::2])
+                if not self.sweep_active:
+                    # Not in sweep mode: display all received lines
+                    self.append_output(f"Received: {raw_line}")
+                    continue
+
+                # During sweep: check if line contains data (comma-separated values)
+                if ',' in raw_line:
+                    try:
+                        # Parse amplitude,phase values (comma-separated)
+                        parts = raw_line.split(',')
+                        if len(parts) >= 2:
+                            amplitude = float(parts[0].strip())
+                            phase = float(parts[1].strip())
+
+                            # Store in data arrays at current position
+                            if self.data_position < self.length:
+                                self.gain_data[self.data_position] = amplitude
+                                self.phase_data[self.data_position] = phase
+                                self.data_position += 1
+
+                                # Update raw plot in real-time (first plot only)
+                                if self.data_position <= len(self.freq_range):
+                                    freq_subset = list(self.freq_range)[:self.data_position]
+                                    gain_subset = self.gain_data[:self.data_position]
+                                    phase_subset = self.phase_data[:self.data_position]
+                                    self.gain_curve.setData(freq_subset, gain_subset)
+                                    # Phase curve is on separate Y axis
+                                    self.phase_curve_right.setData(freq_subset, phase_subset)
+
+                                # Check if sweep is complete
+                                if self.data_position >= self.length:
+                                    self.append_output("Sweep complete")
+                                    self.process_sweep_data()
+
+                                    # Handle continuous sweep mode
+                                    if self.current_mode == 1:  # Continuous sweep
+                                        # Reset for next sweep
+                                        self.data_position = 0
+                                        # Clear raw plot for new sweep
+                                        self.gain_curve.setData([], [])
+                                        self.phase_curve_right.setData([], [])
+                                        # Restore Y ranges after clearing data
+                                        if self.phase_y_range is not None and self.phase_viewbox:
+                                            self.phase_viewbox.setYRange(*self.phase_y_range)
+                                        if self.gain_y_range is not None and self.gain_viewbox:
+                                            self.gain_viewbox.setYRange(*self.gain_y_range)
+                                        self.append_output("Starting next sweep...")
+                                    else:
+                                        # Single sweep mode - stop receiving sweep data
+                                        self.sweep_active = False
+                            else:
+                                # More data points than expected
+                                self.append_output(f"Warning: extra data point: {amplitude},{phase}")
+                        else:
+                            self.append_output(f"Invalid data format: {raw_line}")
+                    except ValueError as e:
+                        self.append_output(f"Error parsing data '{raw_line}': {e}")
                 else:
-                    array_pairs = zip(a_array[::2], a_array[1::2])
-
-                stream = [i[0] << 8 | i[1] for i in array_pairs]
-                stream_length = len(stream)
-
-                # Append stream to data buffer (interleaved gain/phase pairs)
-                # Process pairs: even indices = gain, odd indices = phase
-                pairs_to_process = stream_length // 2
-                for i in range(pairs_to_process):
-                    if self.data_position + i < self.length:
-                        # Gain data (even indices)
-                        self.gain_data[self.data_position + i] = stream[i*2] / 10.0
-                        # Phase data (odd indices)
-                        self.phase_data[self.data_position + i] = stream[i*2 + 1] / 10.0
-
-                self.data_position += pairs_to_process
-                self.counter += 1
-
-                # Check if sweep is complete (last gain data point non-zero)
-                if self.gain_data[-1] != 0:
-                    self.sweep_active = False
-                    self.append_output("Sweep complete")
-                    self.process_sweep_data()
+                    # Line without comma might be debug message during sweep
+                    self.append_output(f"[Debug] {raw_line}")
 
         except Exception as e:
             self.append_output(f"Read error: {str(e)}")
 
     def process_sweep_data(self):
         """Process completed sweep data and update plots."""
-        if self.freq_range is None or self.data is None:
+        if self.freq_range is None or self.gain_data is None or self.phase_data is None:
             return
 
-        freq_array = np.array(self.freq_range)
-        data_array = np.array(self.data)
+        freq_array = np.array(list(self.freq_range))
+        gain_array = np.array(self.gain_data[:len(freq_array)])
+        phase_array = np.array(self.phase_data[:len(freq_array)])
 
-        # Update raw spectrum plot
-        self.raw_plot_curve.setData(freq_array, data_array)
+        # Update Y ranges based on current data
+        self.update_gain_y_range(gain_array)
+        self.update_phase_y_range(phase_array)
 
-        # Process resonance frequency and dissipation (from DAQ.py)
-        # Fit univariate spline (skip first and last 50 points)
-        if len(freq_array) > 100:
-            spl = UnivariateSpline(freq_array[50:-50], data_array[50:-50], k=5, s=8*7200)
-            fit_freq_range = np.linspace(np.min(freq_array[50:-50]), np.max(freq_array[50:-50]), 100000)
-            y_data = spl(fit_freq_range)
+        # Update raw spectrum plots (final update)
+        self.gain_curve.setData(freq_array, gain_array)
+        self.phase_curve_right.setData(freq_array, phase_array)
+
+        # Process resonance frequency from gain data
+        # Find frequency with maximum gain (simple peak detection)
+        if len(gain_array) > 10:
+            # Simple peak detection: find index of maximum gain
+            peak_idx = np.argmax(gain_array)
+            fr = freq_array[peak_idx]  # Resonance frequency
+            phase_at_resonance = phase_array[peak_idx]  # Phase at resonance
+
+            # Update resonant frequency display for single sweep mode
+            if self.current_mode == 0:  # Single sweep mode
+                self.lineEdit_5.setText(f"{fr}")
+                self.freq_phase = fr
 
             # Time value for plot
-            self.t_array.append(time.time() - self.t_start)
-
-            # Find resonance frequency
-            f_max = np.argmax(y_data)
-            fr = fit_freq_range[f_max]
+            current_time = time.time() - self.t_start
+            self.t_array.append(current_time)
             self.fs_array.append(fr)
 
-            # Update frequency plot
+            # Store phase value at resonance
+            if not hasattr(self, 'phase_at_res_array'):
+                self.phase_at_res_array = []
+            self.phase_at_res_array.append(phase_at_resonance)
+
+            # Q factor estimation using formula: Q = -0.5 * fr * d_phase / df
+            # where fr is resonance frequency, d_phase is phase difference in radians,
+            # and df is frequency difference between two measurement points
+
+            # Determine target frequency for phase comparison
+            if self.phase_monitoring_freq is not None:
+                target_freq = self.phase_monitoring_freq
+                freq_source = "user-set phase monitoring point"
+            else:
+                # Default: use frequency 1000 Hz above resonance
+                target_freq = fr + int(self.lineEdit_3.text())
+                freq_source = f"default offset (+{int(self.lineEdit_3.text())} Hz)"
+
+            # Find nearest frequency point in sweep data
+            target_idx = find_idx_nearest_val(freq_array, target_freq)
+            actual_target_freq = freq_array[target_idx]
+            phase_at_target = phase_array[target_idx]
+
+            # Calculate frequency difference and phase difference
+            df = actual_target_freq - fr
+            d_phase_mV = phase_at_target - phase_at_resonance
+
+            # Convert phase difference from mV to radians
+            # 10 mV = 1 degree, 180 degrees = π radians
+            # So: phase_rad = (phase_mV / 10) * (π / 180)
+            d_phase_rad = (d_phase_mV / 10.0) * (math.pi / 180.0)
+
+            # Calculate Q factor using formula Q = -0.5 * fr * d_phase / df
+            if abs(df) > 1e-6:  # Avoid division by zero
+                q_factor = -0.5 * fr * d_phase_rad / df
+                # Ensure Q is positive (take absolute value if needed)
+                if q_factor < 0:
+                    q_factor = abs(q_factor)
+            else:
+                q_factor = 0
+                self.append_output(f"Warning: df too small ({df:.1f} Hz) for Q calculation")
+
+            # Store Q factor
+            self.q_array.append(q_factor)
+
+            # Store phase at fixed monitoring frequency (if phase monitoring point is set)
+            if self.phase_monitoring_freq is not None:
+                # phase_at_target is already extracted for Q calculation
+                self.phase_at_fixed_freq_array.append(phase_at_target)
+                self.append_output(f"Phase at fixed freq {actual_target_freq:.0f} Hz: {phase_at_target:.1f} mV")
+            else:
+                # No fixed monitoring frequency set, store NaN as placeholder
+                self.phase_at_fixed_freq_array.append(float('nan'))
+
+            # Log details about Q calculation
+            self.append_output(f"Q calculation: using {freq_source} at {actual_target_freq:.0f} Hz")
+            self.append_output(f"  df = {df:.1f} Hz, d_phase = {d_phase_mV:.2f} mV = {d_phase_rad:.4f} rad")
+
+            # Update multi-plot
             self.freq_curve.setData(self.t_array, self.fs_array)
+            self.phase_curve.setData(self.t_array, self.phase_at_fixed_freq_array)
+            self.q_curve.setData(self.t_array, self.q_array)
 
-            # Calculate dissipation (static baseline 1750 as in DAQ.py)
-            baseline = 1750
-            half_max = (max(y_data) - baseline) / 2 + baseline
-            idx_nearest = find_idx_nearest_val(y_data[15:f_max], half_max)
-            freq_half = fit_freq_range[idx_nearest]
-            dissipation = np.abs(freq_half - fr) * 2 / fr
-            self.dp_array.append(dissipation)
-
-            # Update dissipation plot (phase plot reused for dissipation)
-            self.phase_curve.setData(self.t_array, self.dp_array)
-
-            # Q factor calculation (simplified)
-            q_factor = fr / (2 * np.abs(freq_half - fr))
-            # Update Q factor plot
-            self.q_curve.setData(self.t_array, [q_factor] * len(self.t_array))
+            # Log results
+            self.append_output(f"Resonance: {fr/1e6:.3f} MHz, Phase at {actual_target_freq:.0f} Hz: {phase_at_target:.1f} mV, Q: {q_factor:.1f}")
 
         # Optionally save data to CSV
         # self.save_data()
 
     def save_data(self, filename=None):
         """Save current data to CSV file."""
-        if filename is None:
+        # Handle case where a boolean might be passed from button click
+        if filename is None or not isinstance(filename, str):
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             filename = f"qcmd_data_{timestamp}.csv"
+        # Ensure filename is string (in case bytes or PathLike object)
+        filename = str(filename)
 
         try:
+            # Ensure all arrays have same length (include q_array and phase_at_fixed_freq_array)
+            min_len = min(len(self.t_array), len(self.fs_array),
+                         len(self.phase_at_res_array), len(self.q_array),
+                         len(self.phase_at_fixed_freq_array))
+            if min_len == 0:
+                self.append_output("No data to save")
+                return
+
+            # Create data folder if it doesn't exist
+            data_folder = "data"
+            if not os.path.exists(data_folder):
+                os.makedirs(data_folder)
+                self.append_output(f"Created data folder: {data_folder}")
+
+            # Construct full file path
+            filepath = os.path.join(data_folder, filename)
+
+            # Prepare data with four columns: time, freq, phase_at_fixed, Q
             data_to_save = np.column_stack((
-                np.round(self.t_array, 2),
-                np.round(self.fs_array, 2),
-                self.dp_array
+                np.round(self.t_array[:min_len], 2),
+                np.round(self.fs_array[:min_len], 2),
+                np.round(self.phase_at_fixed_freq_array[:min_len], 2),
+                np.round(self.q_array[:min_len], 2)
             ))
-            np.savetxt(filename, data_to_save, delimiter=';',
-                       header='time ; fs ; dp')
-            self.append_output(f"Data saved to {filename}")
+
+            # Save to CSV with semicolon delimiter
+            np.savetxt(filepath, data_to_save, delimiter=';',
+                       header='time ; freq ; phase_at_fixed ; Q')
+            self.append_output(f"Data saved to {filepath}")
+
         except Exception as e:
             self.append_output(f"Save error: {str(e)}")
 
@@ -446,6 +631,69 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.textBrowser.verticalScrollBar().setValue(
             self.textBrowser.verticalScrollBar().maximum()
         )
+
+    def clear_data(self):
+        """Clear all data arrays and plots."""
+        # Clear data arrays
+        self.t_array = []
+        self.fs_array = []
+        self.phase_at_res_array = []
+        self.q_array = []
+        self.phase_at_fixed_freq_array = []
+
+        # Clear raw plot data
+        self.gain_curve.setData([], [])
+        self.phase_curve_right.setData([], [])
+        # Reset phase Y range
+        self.phase_y_range = None
+        if self.phase_viewbox:
+            self.phase_viewbox.enableAutoRange(axis='y')
+        # Reset gain Y range
+        self.gain_y_range = None
+        if self.gain_viewbox:
+            self.gain_viewbox.enableAutoRange(axis='y')
+
+        # Clear multi-plot data
+        self.freq_curve.setData([], [])
+        self.phase_curve.setData([], [])
+        self.q_curve.setData([], [])
+
+        # Clear resonant frequency display
+        self.lineEdit_5.setText("")
+
+        # Reset sweep state
+        self.sweep_active = False
+        self.data_position = 0
+
+        # Log action
+        self.append_output("All data and plots cleared")
+
+    def set_phase_monitoring_point(self):
+        """Set phase monitoring point frequency.
+
+        If lineEdit_5 (resonant frequency) has text, copy it to lineEdit_6.
+        Then read frequency from lineEdit_6 and set as phase monitoring point.
+        """
+        # First, check if lineEdit_5 has resonant frequency text
+        resonant_freq_text = self.lineEdit_5.text().strip()
+        if resonant_freq_text:
+            # Copy resonant frequency to lineEdit_6
+            self.lineEdit_6.setText(resonant_freq_text)
+            self.append_output(f"Copied resonant frequency {resonant_freq_text} Hz to monitoring field")
+
+        try:
+            freq_text = self.lineEdit_6.text().strip()
+            if not freq_text:
+                self.append_output("Please enter a frequency in lineEdit_6 or detect resonance first")
+                return
+
+            freq = float(freq_text)
+            # Store the frequency for phase monitoring
+            self.phase_monitoring_freq = freq
+            self.append_output(f"Phase monitoring point set to {freq:.0f} Hz")
+
+        except ValueError:
+            self.append_output(f"Invalid frequency value: {self.lineEdit_6.text()}")
 
     def closeEvent(self, event):
         """Handle window close event."""

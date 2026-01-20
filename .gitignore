@@ -53,3 +53,13 @@ venv/
 .venv/
 *.pyc
 *.pyo
+
+# Project-specific data directories
+software/data/
+firmware/*/build/
+*.log
+*.csv
+*.dat
+
+# Claude settings (optional - uncomment if you don't want to track Claude settings)
+# .claude/

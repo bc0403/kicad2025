@@ -340,7 +340,7 @@ bool performSweep(bool checkForCommand) {
   }
 
   digitalWrite(13, HIGH); // LED indicator of sweep
-  delay(1000);
+  delay(500);
   if (debug) Serial.println("Sweep completed successfully");
   return true; // Sweep completed
 }

@@ -221,7 +221,7 @@
       <x>10</x>
       <y>340</y>
       <width>201</width>
-      <height>341</height>
+      <height>391</height>
      </rect>
     </property>
     <property name="title">
@@ -231,9 +231,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>31</y>
+       <y>21</y>
        <width>181</width>
-       <height>291</height>
+       <height>351</height>
       </rect>
      </property>
     </widget>
@@ -268,7 +268,7 @@
       <x>220</x>
       <y>220</y>
       <width>791</width>
-      <height>491</height>
+      <height>481</height>
      </rect>
     </property>
     <property name="title">
@@ -280,34 +280,70 @@
        <x>0</x>
        <y>19</y>
        <width>791</width>
-       <height>471</height>
+       <height>461</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2"/>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>690</y>
-      <width>91</width>
-      <height>20</height>
+      <x>220</x>
+      <y>710</y>
+      <width>791</width>
+      <height>22</height>
      </rect>
     </property>
-    <property name="text">
-     <string>相位监测点（频率）：</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>690</y>
-      <width>111</width>
-      <height>20</height>
-     </rect>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>谐振频率：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_5"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_6">
+       <property name="text">
+        <string>设置为相位监测点--&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_6"/>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_7">
+       <property name="text">
+        <string>save</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="text">
+        <string>clear</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
