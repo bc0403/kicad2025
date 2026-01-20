@@ -41,3 +41,15 @@ fp-info-cache
 
 # datasheet
 *.pdf
+
+# Python files
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.env/
+.venv/
+*.pyc
+*.pyo

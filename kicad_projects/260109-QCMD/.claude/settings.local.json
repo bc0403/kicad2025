@@ -9,7 +9,9 @@
       "Bash(py -3.8 -m py_compile:*)",
       "Bash(powershell -Command:*)",
       "Bash(py:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(\"C:\\\\work\\\\super_saw\\\\gui\\\\super_saw\\\\venv\\\\Scripts\\\\python\" -c:*)",
+      "Bash(\"C:\\\\work\\\\super_saw\\\\gui\\\\super_saw\\\\venv\\\\Scripts\\\\python\":*)"
     ]
   }
 }

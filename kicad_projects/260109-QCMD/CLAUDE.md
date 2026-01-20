@@ -32,13 +32,15 @@ This is a **Quartz Crystal Microbalance with Dissipation monitoring (QCMD)** mea
 - **Command Format**: `freq_start;freq_stop;freq_step` (e.g., `5000000;5500000;100`)
 
 ### Software Layer (Python)
-- **File**: `software/DAQ.py`
-- **Framework**: PyQtGraph for real-time visualization
-- **Key Dependencies**: NumPy, SciPy, pandas, PyQtGraph, pyserial
-- **Visualization**: Three real-time plots:
-  1. Frequency Response (Resonance Frequency vs Time)
-  2. Dissipation vs Time
-  3. Spectrum (Magnitude vs Frequency)
+- **Legacy DAQ**: `software/DAQ.py` (original PyQtGraph application)
+- **New GUI**: `qcmd.py` (PyQt5-based GUI with integrated plots)
+- **Framework**: PyQt5, PyQtGraph for real-time visualization
+- **Key Dependencies**: NumPy, SciPy, pandas, PyQt5, PyQtGraph, pyserial
+- **Visualization**: Real-time plots in GUI:
+  1. Raw Spectrum (Magnitude vs Frequency)
+  2. Resonance Frequency vs Time
+  3. Dissipation vs Time
+  4. Q Factor vs Time
 
 ## Common Development Commands
 
@@ -76,14 +78,19 @@ echo "5000000;5500000;100" > /dev/ttyACM0  # Linux
 ### Software Development
 ```bash
 # Install Python dependencies (no requirements.txt exists, install manually):
-pip install numpy scipy pandas pyqtgraph pyserial matplotlib
+pip install numpy scipy pandas pyqtgraph pyserial matplotlib PyQt5
 
-# Run the data acquisition software:
+# Run the legacy data acquisition software:
 cd software
 python DAQ.py
 
+# Run the new PyQt5 GUI:
+cd software
+python qcmd.py
+
 # The software expects serial communication on COM4 at 2M baud
-# Modify serial port in DAQ.py line: ser = serial.Serial('COM4', 2000000)
+# The GUI automatically detects available serial ports
+# Default frequency range: 5 MHz to 5.5 MHz with 100 Hz steps
 ```
 
 ## Key Files Reference
@@ -102,9 +109,12 @@ python DAQ.py
 - **ADC Settings**: 12-bit resolution, 2048 samples averaging
 
 ### Software
-- `software/DAQ.py` - Main data acquisition and visualization
+- `software/DAQ.py` - Legacy data acquisition and visualization
+- `qcmd.py` - New PyQt5 GUI for QCMD control and visualization
+- `software/gui/ui_main.ui` - Qt Designer UI file
 - **Data Processing**: Uses SciPy's `UnivariateSpline` and `savgol_filter`
-- **Data Output**: Saves to CSV files with timestamp
+- **Data Output**: Saves to CSV files with timestamp (Ctrl+S in GUI)
+- **GUI Features**: Serial port detection, frequency sweep control, real-time plots
 
 ### Documentation & Calculations
 - `mathcad/LM2735.xmcd` - Mathcad design calculations for DC-DC converter
@@ -115,9 +125,9 @@ python DAQ.py
 ### Typical Measurement Session
 1. **Hardware**: Power up QCMD PCB with Teensy connected
 2. **Firmware**: Upload firmware to Teensy (sets up AD9851, ADC, I2C)
-3. **Software**: Run `python DAQ.py`
-4. **Control**: Send frequency sweep commands via serial interface
-5. **Data**: Real-time plots update, data saved to CSV
+3. **Software**: Run `python qcmd.py` from the software directory (or `python DAQ.py` for legacy)
+4. **Control**: Select serial port, set frequency range, send sweep command
+5. **Data**: Real-time plots update, data saved to CSV (Ctrl+S)
 
 ### Modifying Frequency Range
 1. Update firmware constants for new frequency bounds
