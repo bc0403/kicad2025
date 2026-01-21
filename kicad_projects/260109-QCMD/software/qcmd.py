@@ -10,6 +10,7 @@ import sys
 import os
 import time
 import math
+import json
 import serial
 import serial.tools.list_ports
 import numpy as np
@@ -55,6 +56,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Setup UI from compiled module
         self.setupUi(self)
 
+        # Config file path
+        # Handle both development (script) and PyInstaller bundled modes
+        if getattr(sys, 'frozen', False):
+            # Running as PyInstaller bundled executable
+            # Use directory containing the executable for config file
+            base_dir = os.path.dirname(sys.executable)
+        else:
+            # Running as script in development
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+
+        self.config_file = os.path.join(base_dir, "qcmd_config.json")
+
         # Ensure window maintains designer size
         self.resize(1024, 768)
         self.setMinimumSize(1024, 768)
@@ -63,6 +76,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit.setText("40680000")   # 5 MHz
         self.lineEdit_2.setText("40690000") # 5.5 MHz
         self.lineEdit_3.setText("10")   # 10 kHz step
+
+        # Load saved configuration (overrides defaults if exists)
+        self.load_config()
         self.lineEdit_4.setText("")
         self.lineEdit_5.setText("")  # Resonant frequency display
         self.lineEdit_6.setText("")  # Phase monitoring frequency input
@@ -115,6 +131,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Initial UI updates
         self.update_serial_list()
+
+        # Initial button states
+        self.update_stop_button_state()
+        self.update_checkbox_state()
 
     def setup_plots(self):
         """Initialize pyqtgraph plots in the UI layouts."""
@@ -228,10 +248,90 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         save_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+S"), self)
         save_shortcut.activated.connect(lambda: self.save_data())
 
-        # Additional buttons (clear, set phase point, save)
+        # Additional buttons (clear, set phase point, save, stop)
         self.pushButton_5.clicked.connect(lambda: self.clear_data())  # Clear button (use lambda to avoid boolean parameter)
         self.pushButton_6.clicked.connect(lambda: self.set_phase_monitoring_point())  # Set phase monitoring point (use lambda)
         self.pushButton_7.clicked.connect(lambda: self.save_data())  # Save button (use lambda to avoid boolean parameter)
+        self.pushButton_8.clicked.connect(lambda: self.send_stop_command())  # Stop sweep button (use lambda)
+
+    def update_stop_button_state(self):
+        """Update stop button enabled state based on sweep_active."""
+        if hasattr(self, 'pushButton_8'):
+            self.pushButton_8.setEnabled(self.sweep_active)
+
+    def update_checkbox_state(self):
+        """Update checkbox enabled state based on phase_monitoring_freq."""
+        if hasattr(self, 'checkBox'):
+            enabled = self.phase_monitoring_freq is not None
+            self.checkBox.setEnabled(enabled)
+            # Optional: provide visual feedback when disabled
+            if not enabled:
+                self.checkBox.setToolTip("Set phase monitoring frequency first")
+            else:
+                self.checkBox.setToolTip("")
+
+    def load_config(self):
+        """Load frequency parameters from config file."""
+        if not hasattr(self, 'config_file'):
+            return
+
+        config_file = self.config_file
+        if not os.path.exists(config_file):
+            self.append_output(f"Config file not found: {config_file}")
+            return
+
+        try:
+            with open(config_file, 'r') as f:
+                config = json.load(f)
+
+            # Load frequency parameters
+            freq_start = config.get('freq_start')
+            freq_stop = config.get('freq_stop')
+            freq_step = config.get('freq_step')
+
+            if freq_start is not None:
+                self.lineEdit.setText(str(freq_start))
+            if freq_stop is not None:
+                self.lineEdit_2.setText(str(freq_stop))
+            if freq_step is not None:
+                self.lineEdit_3.setText(str(freq_step))
+
+            self.append_output(f"Loaded config from {config_file}")
+
+        except Exception as e:
+            self.append_output(f"Error loading config: {str(e)}")
+
+    def save_config(self):
+        """Save frequency parameters to config file."""
+        if not hasattr(self, 'config_file'):
+            return
+
+        try:
+            # Get current values from UI
+            freq_start = self.lineEdit.text().strip()
+            freq_stop = self.lineEdit_2.text().strip()
+            freq_step = self.lineEdit_3.text().strip()
+
+            # Validate they are not empty
+            if not freq_start or not freq_stop or not freq_step:
+                self.append_output("Cannot save config: frequency fields are empty")
+                return
+
+            config = {
+                'freq_start': int(freq_start),
+                'freq_stop': int(freq_stop),
+                'freq_step': int(freq_step)
+            }
+
+            with open(self.config_file, 'w') as f:
+                json.dump(config, f, indent=2)
+
+            self.append_output(f"Saved config to {self.config_file}")
+
+        except ValueError as e:
+            self.append_output(f"Cannot save config: invalid integer values - {str(e)}")
+        except Exception as e:
+            self.append_output(f"Error saving config: {str(e)}")
 
     def update_serial_list(self):
         """Update list of available serial ports."""
@@ -288,6 +388,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.append_output("Serial port closed")
 
         self.serial_port = None
+        # Stop any active sweep when port closes
+        self.sweep_active = False
+        self.update_stop_button_state()
         self.pushButton_2.setEnabled(True)
         self.pushButton_3.setEnabled(False)
         self.comboBox.setEnabled(True)
@@ -328,6 +431,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.data_position = 0  # Position in gain/phase arrays
             self.counter = 0
             self.sweep_active = True
+            self.update_stop_button_state()  # Enable stop button
 
             # Send command
             self.serial_port.write(command.encode())
@@ -352,6 +456,47 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             QTimer.singleShot(100, self.read_serial_data)
         except Exception as e:
             self.append_output(f"Send failed: {str(e)}")
+
+    def send_stop_command(self):
+        """Send stop sweep command to device (mode 3)."""
+        if not self.serial_port or not self.serial_port.is_open:
+            self.append_output("Serial port not open")
+            return
+
+        # Get frequency values from line edits (same as sweep command)
+        try:
+            freq_start = int(self.lineEdit.text())
+            freq_stop = int(self.lineEdit_2.text())
+            freq_step = int(self.lineEdit_3.text())
+        except ValueError:
+            self.append_output("Invalid frequency values")
+            return
+
+        # Mode 3 = stop sweep command
+        mode = 3
+        self.current_mode = mode  # Store current mode
+
+        # Format command as per firmware: "freq_start;freq_stop;freq_step;mode"
+        command = f"{freq_start};{freq_stop};{freq_step};{mode};\n"
+
+        try:
+            # Flush serial input buffer
+            self.serial_port.flushInput()
+
+            # Stop sweep processing
+            self.sweep_active = False
+            self.data_position = 0
+            self.update_stop_button_state()  # Disable stop button
+
+            # Send command
+            self.serial_port.write(command.encode())
+            self.append_output(f"Sent stop command: {command}")
+
+            # Schedule a read to get any response
+            QTimer.singleShot(100, self.read_serial_data)
+
+        except Exception as e:
+            self.append_output(f"Stop command failed: {str(e)}")
 
     def read_serial_data(self):
         """Read data from serial port and process ASCII sweep data."""
@@ -410,6 +555,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                     else:
                                         # Single sweep mode - stop receiving sweep data
                                         self.sweep_active = False
+                                        self.update_stop_button_state()  # Disable stop button
                             else:
                                 # More data points than expected
                                 self.append_output(f"Warning: extra data point: {amplitude},{phase}")
@@ -512,7 +658,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 target_idx = find_idx_nearest_val(freq_array, self.phase_monitoring_freq)
                 phase_at_target = phase_array[target_idx]
                 self.phase_at_fixed_freq_array.append(phase_at_target)
-                self.append_output(f"Phase at fixed freq {self.phase_monitoring_freq:.0f} Hz: {phase_at_target:.1f} mV")
+                # self.append_output(f"Phase at fixed freq {self.phase_monitoring_freq:.0f} Hz: {phase_at_target:.1f} mV")
                 # Log results with phase info
                 self.append_output(f"Resonance: {fr/1e6:.3f} MHz, Phase at {self.phase_monitoring_freq:.0f} Hz: {phase_at_target:.1f} mV, Q: {q_factor:.0f}")
             else:
@@ -623,6 +769,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.sweep_active = False
             self.data_position = 0
 
+        # Update stop button state to reflect sweep_active
+        self.update_stop_button_state()
+
         # Log action
         self.append_output("All data and plots cleared")
 
@@ -648,6 +797,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             freq = float(freq_text)
             # Store the frequency for phase monitoring
             self.phase_monitoring_freq = freq
+            self.update_checkbox_state()  # Enable checkbox now that freq is set
             self.append_output(f"Phase monitoring point set to {freq:.0f} Hz")
 
         except ValueError:
@@ -655,6 +805,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         """Handle window close event."""
+        self.save_config()  # Save frequency parameters
         self.close_serial()
         event.accept()
 

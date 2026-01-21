@@ -136,14 +136,14 @@
     <widget class="QPushButton" name="pushButton_4">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>90</x>
        <y>130</y>
-       <width>56</width>
+       <width>45</width>
        <height>22</height>
       </rect>
      </property>
      <property name="text">
-      <string>指令写入</string>
+      <string>开始</string>
      </property>
     </widget>
     <widget class="QWidget" name="layoutWidget">
@@ -203,7 +203,7 @@
       <rect>
        <x>10</x>
        <y>130</y>
-       <width>99</width>
+       <width>81</width>
        <height>22</height>
       </rect>
      </property>
@@ -212,6 +212,19 @@
      </property>
      <property name="checked">
       <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_8">
+     <property name="geometry">
+      <rect>
+       <x>145</x>
+       <y>130</y>
+       <width>45</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>停止</string>
      </property>
     </widget>
    </widget>
