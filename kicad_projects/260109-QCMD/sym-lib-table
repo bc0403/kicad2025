@@ -7,4 +7,7 @@
   (lib (name "AD8007AKSZ-REEL7")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/AD8007AKSZ-REEL7.kicad_sym")(options "")(descr ""))
   (lib (name "AD8310ARMZ")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/AD8310ARMZ.kicad_sym")(options "")(descr ""))
   (lib (name "LM7301IM5")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/LM7301IM5.kicad_sym")(options "")(descr ""))
+  (lib (name "DEV-15583-teensy-4")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/DEV-15583-teensy-4.kicad_sym")(options "")(descr ""))
+  (lib (name "AD8008ARZ")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/AD8008ARZ.kicad_sym")(options "")(descr ""))
+  (lib (name "AD8302ARUZ-REEL")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/AD8302ARUZ-REEL.kicad_sym")(options "")(descr ""))
 )
