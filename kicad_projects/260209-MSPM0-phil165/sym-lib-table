@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MSPM0G3507SPTR")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/MSPM0G3507SPTR.kicad_sym")(options "")(descr ""))
+  (lib (name "MSPM0-tutorial")(type "KiCad")(uri "${KIPRJMOD}/libs/symbols/MSPM0-tutorial.kicad_sym")(options "")(descr ""))
+)
