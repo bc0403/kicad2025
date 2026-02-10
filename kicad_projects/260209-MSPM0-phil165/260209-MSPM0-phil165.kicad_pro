@@ -276,9 +276,44 @@
       {
         "bus_width": 12,
         "line_style": 0,
-        "name": "USB",
+        "name": "I2C",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 1,
+        "schematic_color": "rgb(255, 153, 0)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "PWR",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 3,
+        "schematic_color": "rgb(194, 0, 0)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "name": "SWD",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 0,
+        "schematic_color": "rgb(0, 0, 255)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "UART",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgb(255, 0, 255)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "USB",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 4,
         "schematic_color": "rgb(0, 255, 0)",
         "wire_width": 6
       }
@@ -292,6 +327,26 @@
       {
         "netclass": "USB",
         "pattern": "/USB*"
+      },
+      {
+        "netclass": "PWR",
+        "pattern": "+*V*"
+      },
+      {
+        "netclass": "UART",
+        "pattern": "/UART*"
+      },
+      {
+        "netclass": "I2C",
+        "pattern": "/I*"
+      },
+      {
+        "netclass": "SWD",
+        "pattern": "/SW*"
+      },
+      {
+        "netclass": "SWD",
+        "pattern": "/NRST"
       }
     ]
   },
